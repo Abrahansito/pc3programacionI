@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using startup.Data;
+using startup.Services;
+using startup.Models;
+
+
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +19,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient<IPostService, PostService>();
+builder.Services.AddHttpClient<IExternalNewsService, ExternalNewsService>();
+
 
 var app = builder.Build();
 
@@ -39,7 +45,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Noticias}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
