@@ -1,0 +1,16 @@
+@model List<Post>
+@{
+    ViewData["Title"] = "Noticias";
+}   
+
+ <h2>Noticias</h2>
+
+<ul>
+    @foreach (var post in Model)
+    {
+        <li>
+            <strong>@post.Title</strong><br />
+            <a asp-action="Detalle" asp-route-id="@post.Id">Ver más</a>
+        </li>
+    }
+</ul>
