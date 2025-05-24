@@ -1,0 +1,10 @@
+GET http://localhost:5178/api/feedback
+
+POST http://localhost:5178/api/feedback
+Content-Type: application/json
+
+{
+  "postId": 1,
+  "sentimiento": "like",
+  "fecha": "2025-05-24T00:00:00"
+}
