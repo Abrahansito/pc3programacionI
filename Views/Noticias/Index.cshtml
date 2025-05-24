@@ -1,16 +1,18 @@
-@model List<Post>
+@model List<startup.Models.Post>
+
 @{
     ViewData["Title"] = "Noticias";
-}   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
- <h2>Noticias</h2>
+<h2>Noticias</h2>
 
 <ul>
-    @foreach (var post in Model)
-    {
-        <li>
-            <strong>@post.Title</strong><br />
-            <a asp-action="Detalle" asp-route-id="@post.Id">Ver más</a>
-        </li>
-    }
+@foreach (var post in Model)
+{
+    <li>
+        <a asp-action="Details" asp-route-id="@post.Id"><strong>@post.Title</strong></a>
+        <p>@post.Body</p>
+    </li>
+}
 </ul>

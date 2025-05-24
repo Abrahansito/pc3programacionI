@@ -1,0 +1,65 @@
+@model startup.Models.PostDetailViewModel
+
+@{
+    ViewData["Title"] = Model.Post.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Post.Title</h2>
+<p>@Model.Post.Body</p>
+
+<h3>Autor</h3>
+<p>@Model.Author.Name (@Model.Author.Email)</p>
+
+<h3>Comentarios</h3>
+<ul>
+    @foreach (var comment in Model.Comments)
+    {
+        <li>
+            <strong>@comment.Name</strong>: @comment.Body
+        </li>
+    }
+</ul>
+
+<h3>Tu feedback</h3>
+
+<button id="likeBtn">👍 Me gustó</button>
+<button id="dislikeBtn">👎 No me gustó</button>
+
+<div id="feedbackResult"></div>
+
+@section Scripts {
+    <script>
+        const postId = @Model.Post.Id;
+
+        const btnLike = document.getElementById('likeBtn');
+        const btnDislike = document.getElementById('dislikeBtn');
+        const feedbackResult = document.getElementById('feedbackResult');
+
+        async function sendFeedback(sentiment) {
+            const response = await fetch('/api/feedback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    postId: postId,
+                    sentimiento: sentiment,
+                    fecha: new Date().toISOString()
+                })
+            });
+
+            if (response.ok) {
+                feedbackResult.style.color = 'green';
+                feedbackResult.innerText = 'Gracias por tu feedback!';
+                btnLike.disabled = true;
+                btnDislike.disabled = true;
+            } else {
+                const errorText = await response.text();
+                feedbackResult.style.color = 'red';
+                feedbackResult.innerText = 'Error: ' + errorText;
+            }
+        }
+
+        btnLike.addEventListener('click', () => sendFeedback('like'));
+        btnDislike.addEventListener('click', () => sendFeedback('dislike'));
+    </script>
+}

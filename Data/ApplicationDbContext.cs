@@ -12,4 +12,8 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public DbSet<Feedback> Feedbacks { get; set; }
+    public DbSet<Post> Post { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<Comment> Comment { get; set; }
+
 }
